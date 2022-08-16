@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@200;300;400;500;600;700&display=swap');
+@import './variables';
+@import './mixins';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style-type: none;
+}
+
+body {
+    background-color: $background;
+    color: $darkCyan;
+    font-family: 'Kumbh Sans';
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.header {
+    height: 150px;
+    width: 100%;
+    background-color: $darkCyan;
+    background-image: url(/images/bg-header-desktop.svg);
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    max-width: 65vw;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.search {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 100%;
+    top: -32px;
+    gap: 10px;
+
+    .filter {
+        // display: flex;
+        position: relative;
+        border-radius: 5px;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .delete {
+            display: flex;
+            background-color: $darkCyan;
+            padding: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            
+            &:hover {
+                background-color: black;
+            }
+        }
+    }
+
+    &__clear {
+        display: flex;
+        justify-self: right;
+        margin-left: auto;
+        font-weight: 400;
+        text-decoration: underline;
+    }
+}
+
+.list {
+    position: absolute;
+    min-width: 100%;
+    top: 50px;
+    padding-top: 50px;
+}
+
+.item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    gap: 20px;
+
+    &__logo {
+
+        .logo__img {
+            max-height: 50px;
+        }
+    }
+
+    &__content {
+        @include setFlex(column, left, left);
+        gap: 10px;
+
+        .first {
+            display: flex;
+            align-items: center;
+            font-size: smaller;
+
+            .company {
+                margin-right: 10px;
+            }
+
+            .new {
+                background-color: $darkCyan;
+            }
+
+            .featured {
+                background-color: black;
+            }
+        }
+
+        .third {
+            color: $darkGrayCyan;
+            font-weight: 400;
+            gap: 10px;
+        }
+    }
+
+    &__languages {
+        display: flex;
+        flex-direction: row;
+        justify-self: flex-end;
+        margin-left: auto;
+        gap: 10px;
+
+        .language {
+            &:hover {
+                color: white;
+                background-color: $darkCyan;
+            }
+        }
+    }
+}
+
+.box {
+    border-radius: 5px;
+    background-color: white;
+    -webkit-box-shadow: 8px 2px 19px -10px rgba(66, 68, 90, 0.38);
+    -moz-box-shadow: 8px 2px 19px -10px rgba(66, 68, 90, 0.38);
+    box-shadow: 8px 2px 19px -10px rgba(66, 68, 90, 0.38);
+    padding: 20px 25px;
+}
+
+.flex {
+    display: flex;
+}
+
+.feature {
+    color: white;
+    border-radius: 20px;
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+
+.language {
+    background-color: $filter;
+    border-radius: 5px;
+    padding: 5px 15px;
+}
+
+.cursor {
+    transition: .2s;
+    cursor: pointer;
+}
+
+.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.border {
+    border-left: 5px solid $darkCyan;
+}
+
+@media screen and (max-width: 1010px) {
+    .item {
+        padding: 20px;
+        &__logo {
+            position: absolute;
+            top: -30px;
+        }
+    }
+    
+    .box {
+        margin-bottom: 50px;
+    }
+}
+
+@media screen and (max-width: 885px) {
+    .item {
+        @include setFlex(column, left, left);
+
+        &__content {
+            @include setFlex(column, left, left);
+            margin-right: auto;
+        }
+
+        &__languages {
+            @include setFlex(row, left, left);
+            margin-right: auto;
+        }
+    }
+
+}
