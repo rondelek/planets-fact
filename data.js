@@ -1,153 +1,55 @@
-const dataArray = [
-    {
-      "id": 1,
-      "company": "Photosnap",
-      "logo": "./images/photosnap.svg",
-      "new": true,
-      "featured": true,
-      "position": "Senior Frontend Developer",
-      "role": "Frontend",
-      "level": "Senior",
-      "postedAt": "1d ago",
-      "contract": "Full Time",
-      "location": "USA Only",
-      "languages": ["HTML", "CSS", "JavaScript"],
-      "tools": []
+const currentUserObject = {
+  "currentUser": {
+    "image": { 
+      "png": "./images/avatars/image-juliusomo.png",
+      "webp": "./images/avatars/image-juliusomo.webp"
     },
-    {
-      "id": 2,
-      "company": "Manage",
-      "logo": "./images/manage.svg",
-      "new": true,
-      "featured": true,
-      "position": "Fullstack Developer",
-      "role": "Fullstack",
-      "level": "Midweight",
-      "postedAt": "1d ago",
-      "contract": "Part Time",
-      "location": "Remote",
-      "languages": ["Python"],
-      "tools": ["React"]
-    },
-    {
-      "id": 3,
-      "company": "Account",
-      "logo": "./images/account.svg",
-      "new": true,
-      "featured": false,
-      "position": "Junior Frontend Developer",
-      "role": "Frontend",
-      "level": "Junior",
-      "postedAt": "2d ago",
-      "contract": "Part Time",
-      "location": "USA Only",
-      "languages": ["JavaScript"],
-      "tools": ["React", "Sass"]
-    },
-    {
-      "id": 4,
-      "company": "MyHome",
-      "logo": "./images/myhome.svg",
-      "new": false,
-      "featured": false,
-      "position": "Junior Frontend Developer",
-      "role": "Frontend",
-      "level": "Junior",
-      "postedAt": "5d ago",
-      "contract": "Contract",
-      "location": "USA Only",
-      "languages": ["CSS", "JavaScript"],
-      "tools": []
-    },
-    {
-      "id": 5,
-      "company": "Loop Studios",
-      "logo": "./images/loop-studios.svg",
-      "new": false,
-      "featured": false,
-      "position": "Software Engineer",
-      "role": "Fullstack",
-      "level": "Midweight",
-      "postedAt": "1w ago",
-      "contract": "Full Time",
-      "location": "Worldwide",
-      "languages": ["JavaScript"],
-      "tools": ["Ruby", "Sass"]
-    },
-    {
-      "id": 6,
-      "company": "FaceIt",
-      "logo": "./images/faceit.svg",
-      "new": false,
-      "featured": false,
-      "position": "Junior Backend Developer",
-      "role": "Backend",
-      "level": "Junior",
-      "postedAt": "2w ago",
-      "contract": "Full Time",
-      "location": "UK Only",
-      "languages": ["Ruby"],
-      "tools": ["RoR"]
-    },
-    {
-      "id": 7,
-      "company": "Shortly",
-      "logo": "./images/shortly.svg",
-      "new": false,
-      "featured": false,
-      "position": "Junior Developer",
-      "role": "Frontend",
-      "level": "Junior",
-      "postedAt": "2w ago",
-      "contract": "Full Time",
-      "location": "Worldwide",
-      "languages": ["HTML", "JavaScript"],
-      "tools": ["Sass"]
-    },
-    {
-      "id": 8,
-      "company": "Insure",
-      "logo": "./images/insure.svg",
-      "new": false,
-      "featured": false,
-      "position": "Junior Frontend Developer",
-      "role": "Frontend",
-      "level": "Junior",
-      "postedAt": "2w ago",
-      "contract": "Full Time",
-      "location": "USA Only",
-      "languages": ["JavaScript"],
-      "tools": ["Vue", "Sass"]
-    },
-    {
-      "id": 9,
-      "company": "Eyecam Co.",
-      "logo": "./images/eyecam-co.svg",
-      "new": false,
-      "featured": false,
-      "position": "Full Stack Engineer",
-      "role": "Fullstack",
-      "level": "Midweight",
-      "postedAt": "3w ago",
-      "contract": "Full Time",
-      "location": "Worldwide",
-      "languages": ["JavaScript", "Python"],
-      "tools": ["Django"]
-    },
-    {
-      "id": 10,
-      "company": "The Air Filter Company",
-      "logo": "./images/the-air-filter-company.svg",
-      "new": false,
-      "featured": false,
-      "position": "Front-end Dev",
-      "role": "Frontend",
-      "level": "Junior",
-      "postedAt": "1mo ago",
-      "contract": "Part Time",
-      "location": "Worldwide",
-      "languages": ["JavaScript"],
-      "tools": ["React", "Sass"]
+    "username": "juliusomo"
+  }
+}
+
+const commentsArray = [
+  {
+    "id": 1,
+    "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
+    "createdAt": "1 month ago",
+    "score": 12,
+    "image": "./images/avatars/image-amyrobson.png",
+    "username": "amyrobson",
+    "reply": false
     }
-  ]
-  
+,
+  {
+    "id": 2,
+    "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
+    "createdAt": "2 weeks ago",
+    "score": 5,
+     "image": "./images/avatars/image-maxblagun.png",
+     "username": "maxblagun",
+     "reply": false
+    }
+]
+
+
+const repliesArray = [
+{
+  "id": 3,
+  "content": "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
+  "createdAt": "1 week ago",
+  "score": 4,
+  "image": "./images/avatars/image-ramsesmiron.png",
+  "username": "ramsesmiron",
+  "reply": true
+  },
+{
+  "id": 4,
+  "content": "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
+  "createdAt": "2 days ago",
+  "score": 2,
+  "replyingTo": "ramsesmiron",
+  "image": "./images/avatars/image-juliusomo.png",
+  "username": "juliusomo",
+  "reply": true
+  }
+]
+

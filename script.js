@@ -1,240 +1,273 @@
-const listEl = document.getElementById('list');
-let filterEl = document.getElementById('filter');
-const clearEl = document.getElementById('clear')
+let commentsDiv = document.getElementById('comments');
+let repliesDiv = document.getElementById('replies');
+const sendBtn = document.getElementById('send-btn');
+let commentValue = document.getElementById('comment-value');
+const addCommentBox = document.getElementById('add-comment-box');
+let editBtnArray = document.getElementsByClassName('edit-btn');
+let deleteBtnArray = document.getElementsByClassName('delete-btn');
+const mainEl = document.getElementById('main');
+const overlayEl = document.getElementById('overlay');
 
-function getCurrentSearch() {
-    let languageSearchbarItems = document.getElementsByClassName('language-searchbar');
-    let searchedItems = [];
-    for (let i = 0; i < languageSearchbarItems.length; i++) {
-        searchedItems.push(languageSearchbarItems[i].innerHTML);
-    }
-    return searchedItems;
-}
-
-
-const splitLanguages = arr => {
-    if (!arr) {
-        return ''
-    }
-
-    const splitLang = arr.map(lang => `<div class="language lang cursor" data-languages="${lang}">${lang}</div>`).join('');
-    return splitLang
-}
-
-function generateListItem(item) {
+function generateCommentsItem(item) {
     const data = {
-        company: item.company,
-        logo: item.logo,
-        new: item.new,
-        featured: item.featured,
-        position: item.position,
-        role: item.role,
-        level: item.level,
-        time: item.postedAt,
-        contract: item.contract,
-        location: item.location,
-        languages: item.languages,
-        tools: item.tools,
-        tags: [item.role, item.languages, item.tools]
+        id: item.id,
+        content: item.content,
+        createdAt: item.createdAt,
+        score: item.score,
+        image: item.image,
+        username: item.username,
+        reply: item.reply
     }
 
-
-    let tagsArray = [];
-
-    data.tags.map(item => {
-        if (Array.isArray(item)) {
-            return tagsArray.push(...item)
-        } else {
-            return tagsArray.push(item)
-        }
-    })
-
-    let itemEl =  `
-    <div class="item box ${(data.new) ? 'border' : null}">
-    <div class="item__logo">
-      <img src="${data.logo}" alt="" class="logo__img">
+    commentItem = 
+    `
+    <div class="outer ${(data.reply) ? 'isreply': 'iscomment'}">
+    <div class="hr ${(!data.reply) ? 'hidden': 'active'}"><hr></div>
+    <div class="comment border-radius">
+    <div class="vote border-radius">
+        <div class="vote__plus cursor">
+          <img src="./images/icon-plus.svg" alt="" class="vote"></div>
+        <div class="vote__score">${data.score}</div>
+        <div class="vote__minus cursor">
+          <img src="./images/icon-minus.svg" alt="" class="vote">
+        </div>
     </div>
-    <div class="item__content">
-
-      <ul class="first flex">
-
-        <li class="company">${data.company}</li>
-        <li class="new feature ${(data.new) ? 'active' : 'hidden'}">NEW</li>
-        <li class="featured feature ${(data.featured) ? 'active' : 'hidden'}">FEATURED</li>
-
-      </ul>
-
-      <ul class="second flex">
-        <li class="position cursor">${data.position}</li>
-      </ul>
-
-      <ul class="third flex">
-        <li class="time">${data.time}</li>
-        <li class="bullet">&#x2022;</li>
-        <li class="contract">${data.contract}</li>
-        <li class="bullet">&#x2022;</li>
-        <li class="location">${data.location}</li>
-      </ul>
-
+    <div class="content-box">
+      <div class="upper-line">
+        <div class="upper-line__image">
+            <img src="${data.image}" alt="" class="image__img icon">
+        </div>
+        <div class="upper-line__username">${data.username}</div>
+        <div class="upper-line__createdAt">${data.createdAt}</div>
+        <div class="upper-line__reply cursor">
+            <img src="./images/icon-reply.svg" alt="" class="icon reply-btn">
+            <p class="reply-btn">Reply</p>
+        </div>
+      </div>
+      <div class="content">${data.content}</div>
     </div>
 
-    <div class="item__languages">
-      <div class="language lang cursor" data-languages="${data.role}">${data.role}</div>
-      ${splitLanguages(data.languages)}
-      ${splitLanguages(data.tools)}
-    </div>
+  </div> 
   </div>
     `
 
-    let fds = false; 
+    return commentItem;
+}
 
-    let languageSearchbarItems = document.getElementsByClassName('language-searchbar');
-    let searchedItems = [];
-    for (let i = 0; i < languageSearchbarItems.length; i++) {
-        searchedItems.push(languageSearchbarItems[i].innerHTML);
-    }
+
+function getCommentsAndRepliesData() {
+    commentsDiv.innerHTML = commentsArray.map(item => generateCommentsItem(item)).join('');
+    commentsDiv.innerHTML += repliesArray.map(item => generateCommentsItem(item)).join('');
+}
+
+getCommentsAndRepliesData();
+
+// ####### reply #######
+
+let replyBtnArray = Array.from(document.getElementsByClassName('reply-btn'));
+
+function closeDeleteOverlay() {
+    mainEl.classList.remove('opacity-5');
+    overlayEl.classList.replace('flex', 'hidden');
+}
+
+function manageDeleteOverlay(event) {
+    const closeDeleteBtn = document.getElementById('button-gray');
+    const deleteCommentBtn = document.getElementById('button-red');
     
-
-    const getCurrentSearch = searchedItems;
-
-    console.log(getCurrentSearch)
-
-    getCurrentSearch.map(item => {
-        if (tagsArray.includes(item)) {
-            fds = true;
-        }
+    closeDeleteBtn.addEventListener('click', function() {
+       closeDeleteOverlay();
     })
 
-    if (getCurrentSearch.length === 0) {
-        return itemEl
-    }
-    if (fds === true) {
-        return itemEl;
-    }
-
+    deleteCommentBtn.addEventListener('click', function() {
+        const commentToDelete = event.closest('.outer');
+        commentToDelete.remove()
+        closeDeleteOverlay();
+    })
 }
 
-function regenerateListItems() {
-    generateItemsIDK()
-    addEventListenerToTags();
+function showDeleteOverlay(event) {
+    console.log(deleteBtnArray)
+    mainEl.classList.add('opacity-5');
+    overlayEl.classList.replace('hidden', 'flex');
+    manageDeleteOverlay(event);
 }
 
-function generateItemsIDK() {
-    listEl.innerHTML = dataArray.map(i => generateListItem(i)).join('');
-}
-generateItemsIDK()
-
-
-function checkIfItemInSearchbox(item) {
-    const currentSearchArray = getCurrentSearch();
-    if (currentSearchArray.includes(item.innerHTML)) {
-        return false
-    }
-    return true
+function addEventListenerToDeleteBtn() {
+    Array.from(deleteBtnArray).forEach(btn => btn.addEventListener('click', function() {
+        showDeleteOverlay(event.target);
+    }))
 }
 
-function addEventListenerToTags() {
-    const allTagsArray = Array.from(getAllTags());
-    for (let i = 0; i < allTagsArray.length; i++) {
-        allTagsArray[i].addEventListener('click', event => {
-            if (checkIfItemInSearchbox(event.target)) {
-                addToSearch(event.target);
-            }
-        })
-    }
-}
 
-function getAllTags() {
-    const allTagsArray = document.getElementsByClassName('lang');
-    return allTagsArray
-}
-
-addEventListenerToTags();
-
-
-function addToSearch(event) {
-    filterEl.innerHTML += 
+function editComment(event) {
+    let contentEl = event.closest('.content-box').lastElementChild;
+    contentEl.innerHTML = 
     `
-    <div class="filter__el flex data-languagename="${event.innerHTML}">
-        <div class="language language-searchbar">${event.innerHTML}</div>
-        <div class="delete cursor" id="delete">
-            <img src="./images/icon-remove.svg" alt="" class="delete__img" data-remove="remove">
+    <textarea class="textarea border-radius" id="update-textarea">${contentEl.innerHTML}</textarea>
+    <button class="button-blue border-radius button cursor" id="update-btn">UPDATE</button>
+    `
+    const updateBtn = document.getElementById('update-btn');
+    updateBtn.addEventListener('click', function() {
+        contentEl.innerHTML = document.getElementById('update-textarea').value;
+    })
+}
+
+function addEventListenerToEditBtns() {
+    Array.from(editBtnArray).forEach(btn => btn.addEventListener('click', function() {
+        editComment(event.target);
+    }))
+}
+
+
+function checkIfNextDivIsReply(event) {
+    let replyBox = document.getElementById('reply-box')
+    let replyContentTxt = event.previousSibling.previousSibling.children[0].value;
+    let nextDiv = event.closest('.outer').nextElementSibling;
+    let replyEl =  `
+    <div class="outer isreply">
+    <div class="hr active"><hr></div>
+    <div class="comment border-radius">
+    <div class="vote border-radius">
+        <div class="vote__plus cursor">
+          <img src="./images/icon-plus.svg" alt="" class="vote"></div>
+        <div class="vote__score">0</div>
+        <div class="vote__minus cursor">
+          <img src="./images/icon-minus.svg" alt="" class="vote">
         </div>
+    </div>
+    <div class="content-box">
+      <div class="upper-line">
+        <div class="upper-line__image">
+            <img src="./images/avatars/image-juliusomo.png" alt="" class="image__img icon">
+        </div>
+        <div class="upper-line__username">juliusomo</div>
+        <div class="upper-line__you">you</div>
+        <div class="upper-line__createdAt">created at </div>
+        <div class="upper-line__buttons">
+          <div class="upper-line__buttons__delete box-btn cursor">
+            <img src="./images/icon-delete.svg" alt="" class="icon delete-btn">
+            <p class="delete-btn">Delete</p>
+        </div>
+        <div class="upper-line__buttons__edit box-btn cursor">
+          <img src="./images/icon-edit.svg" alt="" class="icon edit-btn">
+          <p class="edit-btn">Edit</p>
+        </div>
+        </div>
+        
+      </div>
+      <div class="content">${replyContentTxt}</div>
     </div>
 
     `
-    regenerateListItems();
+
+    const checkIfReply = nextDiv => {
+        if (!nextDiv) {
+            commentsDiv.insertAdjacentHTML('afterend', replyEl);
+            replyBox.remove()
+        } else if (nextDiv.classList.contains('isreply')) {
+            nextDiv = nextDiv.nextElementSibling;
+            checkIfReply(nextDiv)
+        } else {
+            nextDiv.insertAdjacentHTML('beforebegin', replyEl)
+            replyBox.remove()
+        }
+    }
+
+    checkIfReply(nextDiv);
+    addEventListenerToEditBtns();
+    addEventListenerToDeleteBtn();
 }
 
-// delete button
+function addEventListenerToAddReply() {
+    let addReplyBtnArray = Array.from(document.getElementsByClassName('add-reply-btn'));
+    addReplyBtnArray.forEach(btn => btn.addEventListener('click', function() {
+        checkIfNextDivIsReply(event.target);
+    }))
+}
 
-function deleteSearch() {
-    filterEl.addEventListener('click', event => {
-        if (event.target.dataset.remove) {
-            let languageDiv = event.target.parentElement.parentElement  // filter__el
-            let filterElChildrenArray = Array.from(filterEl.children)
-            let indexOfLanguageDiv = filterElChildrenArray.indexOf(languageDiv)
-            let newArray = []
-            for (let i = 0; i < filterElChildrenArray.length; i++) {
-                if (i !== indexOfLanguageDiv) {
-                    newArray.push(filterElChildrenArray[i])
-                }
-            }
-            filterEl.innerHTML = ''
-            
-            let lst = newArray.map(i => i.children[0]);
-            for (let elem of lst) {
-                addToSearch(elem)
-            }
-            regenerateListItems();
-    
-        }
+function showReplyBox(event) {
+    const currentCommentEl = event.closest('.outer');
+    const currentUserCommentEl = event.parentElement.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
+    const replyBoxInnerHTML = `
+    <div class="outer" id="reply-box">
+    <div class="add-reply">
+    <div class="hr active"><hr></div>
+    <div class="add-comment border-radius">
+    <div class="add-comment__image">
+      <img src="./images/avatars/image-juliusomo.png" alt="" class="add-comment__image__img icon">
+    </div>
+    <div class="add-comment__content">
+      <textarea class="border-radius">@${currentUserCommentEl}, </textarea>
+    </div>
+    <button class="add-comment__button border-radius cursor add-reply-btn button-blue button">REPLY</button>
+  </div>
+  </div>
+  </div>
+
+    `
+    currentCommentEl.insertAdjacentHTML("afterend",replyBoxInnerHTML);
+    addEventListenerToAddReply();
+}
+
+
+function addEventListenerToReplyBtn() {
+    replyBtnArray.forEach(btn => {
+        btn.addEventListener('click', function() {
+            showReplyBox(event.target);
+        })
     })
 }
 
-deleteSearch();
-
-// addToSearch();
-
-function clearSearch() {
-    filterEl.innerHTML = '';
-    regenerateListItems();
+function sendComment() {
+    let commentEl = 
+    `
+    <div class="outer isreply">
+    <div class="comment border-radius">
+    <div class="vote border-radius">
+        <div class="vote__plus cursor">
+          <img src="./images/icon-plus.svg" alt="" class="vote"></div>
+        <div class="vote__score">0</div>
+        <div class="vote__minus cursor">
+          <img src="./images/icon-minus.svg" alt="" class="vote">
+        </div>
+    </div>
+    <div class="content-box">
+      <div class="upper-line">
+        <div class="upper-line__image">
+            <img src="./images/avatars/image-juliusomo.png" alt="" class="image__img icon">
+        </div>
+        <div class="upper-line__username">juliusomo</div>
+        <div class="upper-line__you">you</div>
+        <div class="upper-line__createdAt">created at </div>
+        <div class="upper-line__buttons">
+          <div class="upper-line__buttons__delete box-btn cursor">
+            <img src="./images/icon-delete.svg" alt="" class="icon delete-btn">
+            <p class="delete-btn">Delete</p>
+        </div>
+        <div class="upper-line__buttons__edit box-btn cursor">
+          <img src="./images/icon-edit.svg" alt="" class="icon edit-btn">
+          <p class="edit-btn">Edit</p>
+        </div>
+        </div>
+        
+      </div>
+      <div class="content">${commentValue.value}</div>
+    </div>
+    `
+    addCommentBox.insertAdjacentHTML('beforebegin', commentEl)
+    commentValue.value = '';
+    addEventListenerToEditBtns();
+    addEventListenerToDeleteBtn();
 }
 
-function addEventListenerToClearButton() {
-    clearEl.addEventListener('click', clearSearch)
+function addEventListenerToSendBtn() {
+    sendBtn.addEventListener('click', function() {
+        sendComment();
+    })
 }
 
-addEventListenerToClearButton();
 
+addEventListenerToReplyBtn();
+addEventListenerToSendBtn();
 
-
-
-
-// clear searches
-
-// const deleteArr = Array.from(document.getElementsByClassName('filter__el'));
-// console.log(deleteArr)
-// for (let i = 0; i < deleteArr.length; i++) {
-//     deleteEl = deleteArr[i].childNodes[3]
-//     // console.log(deleteEl)
-//     deleteEl.addEventListener('click', hideEl)
-// }
-
-// // clearEl.addEventListener('click', e => {
-// //     e.target.previousElementSibling.innerHTML = '';
-// // })
-
-
-// remove filter
-
-// const hideEl = e => {
-//     // const parentEl = e.target.parentNode;
-//     // console.log(parentEl)
-//     // parentEl.classList.remove('flex');
-//     // parentEl.classList.add('hidden')
-//     const parentEL = e.target.parentNode.parentNode.parentNode;
-//     const childEl = e.target.parentNode.parentNode;
-//     parentEL.remove(childEl);  
-//     addAndDeleteFilter();
-// }

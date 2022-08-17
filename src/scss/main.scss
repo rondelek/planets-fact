@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap');
 @import './variables';
 @import './mixins';
 
@@ -6,4 +6,303 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    @include setFlex;
+    position: relative;
+    background-color: $veryLightGray;
+    font-family: 'Rubik', sans-serif;
+    font-size: .9rem;
+}
+
+main {
+    padding: 100px;
+    width: 80vw;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment {
+    display: flex;
+    background-color: white; 
+    margin: 20px;  
+    padding: 20px; 
+    gap: 20px;
+    width: 100%;
+}
+
+.vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 80px;
+    background-color: $veryLightGray;
+    padding: 5px;
+    gap: 10px;
+
+    &__plus {
+
+    }
+
+    &__score {
+        color: $blue;
+        font-size: .9rem;
+    }
+
+    &__minus {
+
+    }
+}
+
+.content-box {
+    width: 100%;
+    .content {
+        color: $grayBlue;
+        line-height: 1.2rem;
+    }
+}
+
+.upper-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 15px;
+
+    &__image {
+
+    }
+    &__username {
+        font-weight: 500;
+    }
+    &__createdAt {
+        color: $grayBlue;
+    }
+    &__reply {
+        display: flex;
+        align-items: center;
+        justify-self: flex-end;
+        margin-left: auto;
+        color: $blue;
+        gap: 10px;
+
+        img {
+            width: 15px;
+            height: 10px;
+        }
+    }
+
+    &__you {
+        color: white;
+        background-color: $blue;
+        padding: 2px 5px;
+    }
+
+    &__buttons {
+        display: flex;
+        align-items: center;
+        justify-self: flex-end;
+        margin-left: auto;
+        gap: 15px;
+        
+        &__delete {
+            color: #ed6368;
+        }
+    
+        &__edit {
+            color: $blue;
+        }
+    }
+
+
+    
+}
+
+.add-comment {
+    display: flex;
+    justify-content: stretch;
+    width: 100%;
+    background-color: white; 
+    margin-top: 30px;
+    padding: 20px; 
+    gap: 20px;
+
+    &__content {
+        width: 100%;
+        height: 100px;
+
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            color: $grayBlue;
+            outline: none;
+            border: 2px solid $lightGray;
+            padding: 10px;
+
+            &:focus {
+                border-color: $lightGrayBlue;
+            }
+
+            &::placeholder {
+                opacity: .5;
+            }
+        }
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-reply {
+    display: flex;
+    width: 100%;
+    margin-right: 20px;
+    animation: appear 1s;
+}
+
+.button {
+    max-height: 50px;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.button-gray {
+    background-color: $grayBlue;
+}
+
+.button-red {
+    background-color: $softRed;
+}
+
+.button-blue {
+    max-width: 100px;
+    justify-self: flex-end;
+    margin-left: auto;
+    background-color: $blue;
+}
+
+.box-btn {
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+    font-weight: 700;
+    margin-left: auto;
+    gap: 10px;
+}
+
+.icon {
+    max-width: 40px;
+}
+
+.hr {
+    position: relative;
+    width: 50px;
+    opacity: .2;
+}
+
+
+hr {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    width: .5px;
+    height: 100%;
+}
+
+.outer {
+    display: flex;
+    min-width: 100%;
+}
+
+.isreply {
+    min-width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.flex {
+    display: flex;
+}
+
+.opacity-5 {
+    opacity: .5;
+}
+
+.border-radius {
+    border-radius: 10px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    color: $grayBlue;
+    outline: none;
+    border: 2px solid $lightGray;
+    padding: 10px;
+
+    &:focus {
+        border-color: $lightGrayBlue;
+    }
+}
+
+.overlay {
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,.3);
+}
+
+.delete-box {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    color: $grayBlue;
+    line-height: 1.2rem;
+    background-color: white;
+    padding: 20px;
+    gap: 20px;
+
+    h2 {
+        color: black;
+        opacity: .8;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        gap: 20px;
+        // justify-items: stretch;
+    }
+}
+
+@keyframes appear {
+    0% {transform: translateY(-30%);}
+    100% {transform: translateY(0%);}
 }
