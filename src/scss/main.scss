@@ -256,6 +256,21 @@ hr {
     cursor: pointer;
 }
 
+.hover {
+    transition: .2s;
+    &:hover {
+        opacity: .8;
+    }
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
 .textarea {
     width: 100%;
     max-width: 100%;

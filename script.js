@@ -8,14 +8,32 @@ let deleteBtnArray = document.getElementsByClassName('delete-btn');
 const mainEl = document.getElementById('main');
 const overlayEl = document.getElementById('overlay');
 
-function subtractVote(event) {
-    let voteEl = event.parentElement.previousElementSibling;
-    console.log(voteEl)
-    if (voteEl.value !== voteEl.min) {
-        voteEl.value = Number(voteEl.value) - 1;
+
+function changeVoteColors(voteEl) {
+    let upVote = voteEl.previousElementSibling.children[0];
+    let downVote = voteEl.nextElementSibling.children[0];
+    if (voteEl.value === voteEl.min) {
+        voteEl.style.color = 'red';
+        upVote.style.removeProperty('opacity');
+        downVote.style.opacity = '.2';
+    } else if (voteEl.value === voteEl.max) {
+        voteEl.style.color = 'green';
+        upVote.style.opacity = '.2';
+        downVote.style.opacity = '1';
+    } else {
+        voteEl.style.color = '#5457b6';
+        upVote.style.opacity = '1';
+        downVote.style.opacity = '1';
     }
 }
 
+function subtractVote(event) {
+    let voteEl = event.parentElement.previousElementSibling;
+    if (voteEl.value !== voteEl.min) {
+        voteEl.value = Number(voteEl.value) - 1;
+    }
+    changeVoteColors(voteEl);
+}
 
 function addEventListenerToVoteMinus() {
     const voteMinusArray = Array.from(document.getElementsByClassName('vote-minus'));
@@ -29,6 +47,8 @@ function incrementVote(event) {
     if (voteEl.value !== voteEl.max) {
         voteEl.value = Number(voteEl.value) + 1;
     }
+
+    changeVoteColors(voteEl);
 }
 
 function addEventListenerToVotePlus() {
@@ -61,10 +81,11 @@ function generateCommentsItem(item) {
     <div class="comment border-radius">
     <div class="vote border-radius">
         <div class="vote__plus cursor">
-          <img src="./images/icon-plus.svg" alt="" class="vote vote-plus"></div>
+          <img src="./images/icon-plus.svg" alt="" class="vote vote-plus hover">
+        </div>
         <input class="vote__score" value="${data.score}" max="${(data.score + 1)}" min="${(data.score - 1)}" readonly></input>
         <div class="vote__minus cursor">
-          <img src="./images/icon-minus.svg" alt="" class="vote vote-minus">
+          <img src="./images/icon-minus.svg" alt="" class="vote vote-minus hover">
         </div>
     </div>
     <div class="content-box">
@@ -75,7 +96,7 @@ function generateCommentsItem(item) {
         <div class="upper-line__username">${data.username}</div>
         <div class="upper-line__createdAt">${data.createdAt}</div>
         <div class="upper-line__reply cursor">
-            <img src="./images/icon-reply.svg" alt="" class="icon reply-btn">
+            <img src="./images/icon-reply.svg" alt="" class="icon reply-btn hover">
             <p class="reply-btn">Reply</p>
         </div>
       </div>
@@ -166,10 +187,11 @@ function checkIfNextDivIsReply(event) {
     <div class="comment border-radius">
     <div class="vote border-radius">
         <div class="vote__plus cursor">
-          <img src="./images/icon-plus.svg" alt="" class="vote vote-plus"></div>
-        <div class="vote__score">0</div>
+            <img src="./images/icon-plus.svg" alt="" class="vote vote-plus hover">
+        </div>
+        <input class="vote__score" value="0" max="1" min="0" readonly></input>
         <div class="vote__minus cursor">
-          <img src="./images/icon-minus.svg" alt="" class="vote vote-minus">
+            <img src="./images/icon-minus.svg" alt="" class="vote vote-minus hover">
         </div>
     </div>
     <div class="content-box">
@@ -182,11 +204,11 @@ function checkIfNextDivIsReply(event) {
         <div class="upper-line__createdAt">created at </div>
         <div class="upper-line__buttons">
           <div class="upper-line__buttons__delete box-btn cursor">
-            <img src="./images/icon-delete.svg" alt="" class="icon delete-btn">
+            <img src="./images/icon-delete.svg" alt="" class="icon delete-btn hover">
             <p class="delete-btn">Delete</p>
         </div>
         <div class="upper-line__buttons__edit box-btn cursor">
-          <img src="./images/icon-edit.svg" alt="" class="icon edit-btn">
+          <img src="./images/icon-edit.svg" alt="" class="icon edit-btn hover">
           <p class="edit-btn">Edit</p>
         </div>
         </div>
@@ -213,6 +235,7 @@ function checkIfNextDivIsReply(event) {
     checkIfReply(nextDiv);
     addEventListenerToEditBtns();
     addEventListenerToDeleteBtn();
+    addEventListenerToVote();
 }
 
 function addEventListenerToAddReply() {
@@ -261,12 +284,12 @@ function sendComment() {
     <div class="outer isreply">
     <div class="comment border-radius">
     <div class="vote border-radius">
-        <div class="vote__plus cursor">
-          <img src="./images/icon-plus.svg" alt="" class="vote"></div>
-        <div class="vote__score">0</div>
-        <div class="vote__minus cursor">
-          <img src="./images/icon-minus.svg" alt="" class="vote">
-        </div>
+    <div class="vote__plus cursor">
+    <img src="./images/icon-plus.svg" alt="" class="vote vote-plus hover"></div>
+  <input class="vote__score" value="0" max="1" min="0" readonly></input>
+  <div class="vote__minus cursor">
+    <img src="./images/icon-minus.svg" alt="" class="vote vote-minus hover">
+  </div>
     </div>
     <div class="content-box">
       <div class="upper-line">
@@ -278,11 +301,11 @@ function sendComment() {
         <div class="upper-line__createdAt">created at </div>
         <div class="upper-line__buttons">
           <div class="upper-line__buttons__delete box-btn cursor">
-            <img src="./images/icon-delete.svg" alt="" class="icon delete-btn">
+            <img src="./images/icon-delete.svg" alt="" class="icon delete-btn hover">
             <p class="delete-btn">Delete</p>
         </div>
         <div class="upper-line__buttons__edit box-btn cursor">
-          <img src="./images/icon-edit.svg" alt="" class="icon edit-btn">
+          <img src="./images/icon-edit.svg" alt="" class="icon edit-btn hover">
           <p class="edit-btn">Edit</p>
         </div>
         </div>
@@ -295,6 +318,7 @@ function sendComment() {
     commentValue.value = '';
     addEventListenerToEditBtns();
     addEventListenerToDeleteBtn();
+    addEventListenerToVote();
 }
 
 function addEventListenerToSendBtn() {

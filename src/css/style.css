@@ -189,6 +189,17 @@ hr {
 .cursor {
   cursor: pointer; }
 
+.hover {
+  transition: .2s; }
+  .hover:hover {
+    opacity: .8; }
+
+.green {
+  color: green; }
+
+.red {
+  color: red; }
+
 .textarea {
   width: 100%;
   max-width: 100%;
