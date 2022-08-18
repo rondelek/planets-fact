@@ -177,8 +177,9 @@ function addEventListenerToEditBtns() {
 }
 
 
+
 function checkIfNextDivIsReply(event) {
-    let replyBox = document.getElementById('reply-box')
+    let replyBox = document.getElementById('reply-box');
     let replyContentTxt = event.previousSibling.previousSibling.children[0].value;
     let nextDiv = event.closest('.outer').nextElementSibling;
     let replyEl =  `
@@ -249,7 +250,7 @@ function showReplyBox(event) {
     const currentCommentEl = event.closest('.outer');
     const currentUserCommentEl = event.parentElement.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
     const replyBoxInnerHTML = `
-    <div class="outer" id="reply-box">
+    <div class="outer reply-box" id="reply-box">
     <div class="add-reply">
     <div class="hr active"><hr></div>
     <div class="add-comment border-radius">
@@ -265,8 +266,12 @@ function showReplyBox(event) {
   </div>
 
     `
-    currentCommentEl.insertAdjacentHTML("afterend",replyBoxInnerHTML);
-    addEventListenerToAddReply();
+
+    const nextDiv = currentCommentEl.nextElementSibling;
+    if (!nextDiv.classList.contains('reply-box') && document.getElementsByClassName('reply-box').length === 0) {
+        currentCommentEl.insertAdjacentHTML("afterend",replyBoxInnerHTML);
+        addEventListenerToAddReply();
+    }
 }
 
 
@@ -314,11 +319,14 @@ function sendComment() {
       <div class="content">${commentValue.value}</div>
     </div>
     `
-    addCommentBox.insertAdjacentHTML('beforebegin', commentEl)
-    commentValue.value = '';
-    addEventListenerToEditBtns();
-    addEventListenerToDeleteBtn();
-    addEventListenerToVote();
+    if (commentValue.value.length > 0) {
+        addCommentBox.insertAdjacentHTML('beforebegin', commentEl);
+        commentValue.value = '';
+        addEventListenerToEditBtns();
+        addEventListenerToDeleteBtn();
+        addEventListenerToVote();
+    }
+
 }
 
 function addEventListenerToSendBtn() {
