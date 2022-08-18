@@ -49,8 +49,12 @@ main {
     }
 
     &__score {
+        max-width: 20px;
         color: $blue;
         font-size: .9rem;
+        text-align: center;
+        border: none;
+        background-color: $veryLightGray;
     }
 
     &__minus {

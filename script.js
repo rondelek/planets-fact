@@ -8,6 +8,41 @@ let deleteBtnArray = document.getElementsByClassName('delete-btn');
 const mainEl = document.getElementById('main');
 const overlayEl = document.getElementById('overlay');
 
+function subtractVote(event) {
+    let voteEl = event.parentElement.previousElementSibling;
+    console.log(voteEl)
+    if (voteEl.value !== voteEl.min) {
+        voteEl.value = Number(voteEl.value) - 1;
+    }
+}
+
+
+function addEventListenerToVoteMinus() {
+    const voteMinusArray = Array.from(document.getElementsByClassName('vote-minus'));
+    voteMinusArray.forEach(vote => vote.addEventListener('click', function() {
+        subtractVote(event.target);
+    }))
+}
+
+function incrementVote(event) {
+    let voteEl = event.parentElement.nextElementSibling;
+    if (voteEl.value !== voteEl.max) {
+        voteEl.value = Number(voteEl.value) + 1;
+    }
+}
+
+function addEventListenerToVotePlus() {
+    const votePlusArray = Array.from(document.getElementsByClassName('vote-plus'));
+    votePlusArray.forEach(vote => vote.addEventListener('click', function() {
+        incrementVote(event.target);
+    }))
+}
+
+function addEventListenerToVote() {
+    addEventListenerToVotePlus();
+    addEventListenerToVoteMinus();
+}
+
 function generateCommentsItem(item) {
     const data = {
         id: item.id,
@@ -26,10 +61,10 @@ function generateCommentsItem(item) {
     <div class="comment border-radius">
     <div class="vote border-radius">
         <div class="vote__plus cursor">
-          <img src="./images/icon-plus.svg" alt="" class="vote"></div>
-        <div class="vote__score">${data.score}</div>
+          <img src="./images/icon-plus.svg" alt="" class="vote vote-plus"></div>
+        <input class="vote__score" value="${data.score}" max="${(data.score + 1)}" min="${(data.score - 1)}" readonly></input>
         <div class="vote__minus cursor">
-          <img src="./images/icon-minus.svg" alt="" class="vote">
+          <img src="./images/icon-minus.svg" alt="" class="vote vote-minus">
         </div>
     </div>
     <div class="content-box">
@@ -50,6 +85,7 @@ function generateCommentsItem(item) {
   </div> 
   </div>
     `
+
 
     return commentItem;
 }
@@ -130,10 +166,10 @@ function checkIfNextDivIsReply(event) {
     <div class="comment border-radius">
     <div class="vote border-radius">
         <div class="vote__plus cursor">
-          <img src="./images/icon-plus.svg" alt="" class="vote"></div>
+          <img src="./images/icon-plus.svg" alt="" class="vote vote-plus"></div>
         <div class="vote__score">0</div>
         <div class="vote__minus cursor">
-          <img src="./images/icon-minus.svg" alt="" class="vote">
+          <img src="./images/icon-minus.svg" alt="" class="vote vote-minus">
         </div>
     </div>
     <div class="content-box">
@@ -270,4 +306,4 @@ function addEventListenerToSendBtn() {
 
 addEventListenerToReplyBtn();
 addEventListenerToSendBtn();
-
+addEventListenerToVote();
